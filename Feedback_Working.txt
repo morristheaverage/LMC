@@ -1,0 +1,72 @@
+Feedback for LMC file: Working.txt
+
+
+Attempting to compile: Compile successful. 99 mailboxes used.
+
+
+Attempting to run test 1: From base 3 to base 8
+    Inputs: 0, 3, 8
+  Expected: 0
+    Output: 0
+  Halted after 108 Fetch/execute cycles.
+
+Attempting to run test 2: From base 5 to base 5
+    Inputs: 411, 5, 5
+  Expected: 411
+    Output: 411
+  Halted after 384 Fetch/execute cycles.
+
+Attempting to run test 3: From base 6 to base 10
+    Inputs: 210, 6, 10
+  Expected: 78
+    Output: 78
+  Halted after 324 Fetch/execute cycles.
+
+Attempting to run test 4: From base 7 to base 6
+    Inputs: 330, 7, 6
+  Expected: 440
+    Output: 440
+  Halted after 440 Fetch/execute cycles.
+
+Attempting to run test 5: From base 8 to base 9
+    Inputs: 150, 8, 9
+  Expected: 125
+    Output: 125
+  Halted after 305 Fetch/execute cycles.
+
+Attempting to run test 6: From base 8 to base 10
+    Inputs: 264, 8, 10
+  Expected: 180
+    Output: 180
+  Halted after 457 Fetch/execute cycles.
+
+Attempting to run test 7: From base 9 to base 9
+    Inputs: 267, 9, 9
+  Expected: 267
+    Output: 267
+  Halted after 462 Fetch/execute cycles.
+
+Attempting to run test 8: From base 9 to base 9
+    Inputs: 521, 9, 9
+  Expected: 521
+    Output: 521
+  Halted after 669 Fetch/execute cycles.
+
+Attempting to run test 9: From base 10 to base 8
+    Inputs: 171, 10, 8
+  Expected: 253
+    Output: 253
+  Halted after 382 Fetch/execute cycles.
+
+Attempting to run test 10: From base 10 to base 10
+    Inputs: 131, 10, 10
+  Expected: 131
+    Output: 131
+  Halted after 305 Fetch/execute cycles.
+
+Attempting to run test 11: From base 10 to base 10
+    Inputs: 943, 10, 10
+  Expected: 943
+    Output: 943
+  Halted after 1201 Fetch/execute cycles.
+

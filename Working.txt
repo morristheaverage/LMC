@@ -1,0 +1,160 @@
+# Enter assembler code here
+#
+# To add comments begin lines with #
+# Code lines have 3 entries separated by tabs
+# > First an optional label,
+# > second an instruction mnemonic, and 
+# > third an address label if required.
+#
+# Valid mnemonics are:
+# HLT, ADD, SUB, STO, LDA,
+# BR, BRZ, BRP, IN, OUT, DAT
+#load all the input data
+#
+	LDA	zero
+	STO	count
+	STO	hcount
+	IN
+	STO	innum
+	
+	
+#break innum into its 3 digits
+#(consider code to set count to 0 here)
+hCount	LDA	innum
+	SUB	hun
+	BRP	addHun
+
+#if negative all hundreds have been counted
+	LDA	count
+	STO	hdigit
+#Don't reset count to zero. Just subtract hdigit  and tdigit when needed.
+
+#BR statement redundant here
+
+tCount	LDA	innum
+	SUB	ten
+	BRP	addTen
+	LDA	count
+	SUB	hdigit
+	STO	tdigit
+
+#BR to oCount but break statement redundant here
+
+oCount	LDA	innum
+	STO	odigit
+	BR	new0
+
+addHun	STO	innum
+	LDA	count
+	ADD	one
+	STO	count
+	BR	hCount
+
+addTen	STO	innum
+	LDA	count
+	ADD	one
+	STO	count
+	BR	tCount
+
+#all digits have now been found and stored separately
+
+#new method 3
+# use b^2 to build up from base 10
+
+new0	IN
+	STO	innum
+	#BRZ	error0 hopefully this is overly cautious (checking for 0 or 1 in base)
+	#SUB	one
+	#BRZ	error0
+	IN
+	STO	outbase
+	#BRZ	error0 see above
+	#SUB	one
+	#BRZ	error0
+	LDA	zero
+	STO	count
+
+new1	LDA	hdigit	#move hundreds into tens
+	BRZ	new2
+	SUB	one
+	STO	hdigit
+	LDA	tdigit
+	ADD	innum
+	STO	tdigit
+	BR	new1
+
+new2	LDA	tdigit	#move tens into units
+	BRZ	new3-1
+	SUB	one
+	STO	tdigit
+	LDA	odigit
+	ADD	innum
+	STO	odigit
+	BR	new2
+
+new3-1	LDA	outbase	#find b^2
+	STO	count	#now used as outbase store
+new3-2	LDA	outbase
+	SUB	one
+	BRP	incb2
+#once counted down to -1 all multiples of b have been added to form b^2
+	
+
+new4	LDA	odigit
+	SUB	hdigit
+	BRP	addb2
+	#start adding single powers of b now
+new5	LDA	odigit	#to remove -ve tag
+	SUB	count
+	BRP	addb1
+	#start adding units now
+	LDA	tdigit
+	ADD	odigit
+	OUT
+zero	DAT	000 #serves as HLT
+
+addb2	STO	odigit
+	LDA	hcount
+	ADD	one
+	STO	hcount
+	SUB	count	#subtract the outbase
+	BRP	error1	#too many 'hundreds'
+	LDA	tdigit
+	ADD	hun
+	#BRZ	error0	#overflow detected
+	#use of hcount makes above line redundant
+	STO	tdigit
+	BR	new4
+
+addb1	STO	odigit
+	LDA	tdigit
+	ADD	ten
+	STO	tdigit
+	BR	new5
+
+incb2	STO	outbase
+	LDA	hdigit	#now store of b^2
+	ADD	count
+	STO	hdigit
+	BR	new3-2
+
+error1	LDA	zero
+error0	SUB	one	#may end up defunct but used when an error is detected by a BRZ
+	OUT
+one	DAT	001
+
+innum	DAT
+outbase	DAT
+count	DAT	000
+
+#one used as HLT above
+ten	DAT	010
+hun	DAT	100
+
+#count how many hundreds are being added
+hcount	DAT	000
+
+#use for input number and reuse for output
+hdigit	DAT	000 #later stores b^2
+tdigit	DAT	000 #later stores output value
+odigit	DAT	000 #later stores base 10 value
